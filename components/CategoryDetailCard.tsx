@@ -1,4 +1,6 @@
+import { Colors } from "@/constants/colors";
 import { Service } from "@/types/service";
+import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import {
   Image,
@@ -16,7 +18,7 @@ type ServiceCardProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const ServiceCard = ({ item, onPress, style }: ServiceCardProps) => {
+const CategoryDetailCard = ({ item, onPress, style }: ServiceCardProps) => {
   return (
     <TouchableOpacity
       style={[styles.card, style]}
@@ -26,25 +28,26 @@ const ServiceCard = ({ item, onPress, style }: ServiceCardProps) => {
       <Image source={item.image} style={styles.image} />
 
       <View style={styles.content}>
-        <View style={styles.row}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.price}>${item.price}/hr</Text>
-        </View>
-
+        <Text style={styles.title} numberOfLines={1}>
+          {item.title}
+        </Text>
         <View style={styles.ratingRow}>
-          <Text style={styles.stars}>
-            {"★".repeat(item.rating)}
-            {"☆".repeat(5 - item.rating)}
-          </Text>
-
-          <Text style={styles.reviewText}>({item.reviewCount} Reviews)</Text>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <AntDesign
+              key={star}
+              name={star <= Math.floor(item.rating) ? "star" : "staro"}
+              size={10}
+              color="#FFC107"
+            />
+          ))}
         </View>
+        <Text style={styles.price}>${item.price}/hr</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default ServiceCard;
+export default CategoryDetailCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -52,58 +55,43 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: "hidden",
     marginVertical: 10,
+    width: 165,
+    height: 180,
     elevation: 4,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.12,
     shadowRadius: 4,
   },
 
   image: {
-    height: 120,
+    height: 110,
     width: "100%",
     resizeMode: "cover",
   },
 
   content: {
-    padding: 12,
+    padding: 10,
+    gap: 4,
   },
 
-  row: {
+  ratingRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    gap: 2,
   },
 
   title: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "700",
     color: "#222",
   },
 
   price: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "700",
-    color: "#222",
-  },
-
-  ratingRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
-  },
-
-  stars: {
-    color: "#1976D2",
-    fontSize: 16,
-    marginRight: 6,
-  },
-
-  reviewText: {
-    color: "#777",
-    fontSize: 14,
+    color: Colors.primary,
   },
 });
