@@ -2,8 +2,7 @@ import CategoryCard from "@/components/CategoryCard";
 import Input from "@/components/Input";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/colors";
-import { categories, services } from "@/data/data";
-import { Category } from "@/types/categories";
+import { services } from "@/data/data";
 import { EvilIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useState } from "react";
@@ -13,18 +12,22 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import userImage from "../../assets/images/user.png";
 
 import ServiceCard from "@/components/ServiceCard";
+import { useCategory } from "@/context/CategoriesContext";
 import { Service } from "@/types/service";
+import { useRouter } from "expo-router";
 export default function HomeScreen() {
-  const [allCategories, setAllCategories] = useState<Category[]>(categories);
   const [allServices, setAllServices] = useState<Service[]>(services);
   const [selectedCategory, setSelectedCategory] = useState("1");
 
-  console.log(categories);
+  const { allCategories } = useCategory();
+  console.log(allCategories);
+  const router = useRouter();
   const [search, setSearch] = useState("");
   return (
     <ScreenContainer>
@@ -81,7 +84,13 @@ export default function HomeScreen() {
             <Text style={{ fontSize: 16, fontWeight: "700" }}>
               All Categories
             </Text>
-            <Text style={{ color: Colors.primary, fontSize: 12 }}>See all</Text>
+            <TouchableOpacity
+              onPress={() => router.push("/(modals)/categoriesModal")}
+            >
+              <Text style={{ color: Colors.primary, fontSize: 12 }}>
+                See all
+              </Text>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -116,25 +125,27 @@ export default function HomeScreen() {
             </Text>
             <Text style={{ color: Colors.primary, fontSize: 12 }}>See all</Text>
           </View>
-          <ScrollView
+          <FlatList
             horizontal
+            data={allServices}
+            keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               paddingRight: 20,
-              gap: 15, // React Native 0.71+ mein support hai
             }}
-          >
-            <FlatList
-              horizontal
-              data={allServices}
-              keyExtractor={(item) => item.id}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
-              renderItem={({ item }) => (
-                <ServiceCard item={item} onPress={() => {}} />
-              )}
-            />
-          </ScrollView>
+            ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
+            renderItem={({ item }) => (
+              <ServiceCard
+                item={item}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(modals)/serviceDetailModal",
+                    params: { id: item.id },
+                  })
+                }
+              />
+            )}
+          />
         </View>
       </ScrollView>
     </ScreenContainer>

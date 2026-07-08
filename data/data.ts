@@ -74,6 +74,22 @@ export const reviews = [
     userName: "Michael Stark",
     userImage: require("../assets/images/user.png"),
     rating: 5,
-    review: "Very professional service. Highly recommended.",
+    review: "Very professional service. The tools were in perfect condition and the provider was on time. Highly recommended!",
+  },
+  {
+    id: "2",
+    providerId: "1",
+    userName: "Sarah Johnson",
+    userImage: require("../assets/images/user.png"),
+    rating: 5,
+    review: "Excellent experience! Got the job done quickly and efficiently. Will definitely use again.",
+  },
+  {
+    id: "3",
+    providerId: "1",
+    userName: "Ahmed Khan",
+    userImage: require("../assets/images/user.png"),
+    rating: 4,
+    review: "Great service overall. Very reliable and the equipment quality is top-notch.",
   },
 ];

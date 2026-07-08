@@ -1,16 +1,29 @@
 import { Service } from "@/types/service";
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 
 type ServiceCardProps = {
   item: Service;
   onPress: () => void;
+  style?: StyleProp<ViewStyle>;
 };
 
-const ServiceCard = ({ item, onPress }: ServiceCardProps) => {
+const ServiceCard = ({ item, onPress, style }: ServiceCardProps) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
-      <Image source={item.image} style={styles.image} resizeMode="cover" />
+    <TouchableOpacity
+      style={[styles.card, style]}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
+      <Image source={item.image} style={styles.image} />
 
       <View style={styles.content}>
         <View style={styles.row}>
@@ -50,8 +63,9 @@ const styles = StyleSheet.create({
   },
 
   image: {
+    height: 120,
     width: "100%",
-    height: 170,
+    resizeMode: "cover",
   },
 
   content: {
@@ -65,13 +79,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "700",
     color: "#222",
   },
 
   price: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "700",
     color: "#222",
   },
